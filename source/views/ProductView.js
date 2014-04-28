@@ -2,22 +2,22 @@
  * Created by anik on 4/27/14.
  */
 enyo.kind({
-name: "ProductView",
+    name: "ProductView",
 
-    components:[
+    components: [
         {name: 'name', content: 'product name goes here'}
     ],
-    published:{
+    published: {
         product: null
     },
-    create: function(){
+    create: function () {
         this.inherited(arguments);
-        if(this.model){
+        if (this.model) {
             this.setProduct(this.model);
         }
     },
-    productChanged: function(){
-            this.$.name.setContent(this.getProduct().get('name'));
+    productChanged: function () {
+        this.$.name.setContent(this.getProduct().get('name'));
     }
 
 

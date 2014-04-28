@@ -7,6 +7,6 @@ var Product = Backbone.Model.extend({
         name: "Not specified yet"
     },
     initialize: function(){
-        console.log("Product Initialized");
+
     }
 });

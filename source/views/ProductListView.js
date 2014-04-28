@@ -11,17 +11,13 @@ enyo.kind({
         {
             name: 'container',
             tag: 'ul'
-        },
-        {
-            name: 'addProduct', kind: "Input", onkeypress: "addProductToList", placeholder: "add product name here..."
         }
     ],
 
-    create: function(){
-      this.inherited(arguments);
-      if(this.productList  == null){
-          this.setProductList(new ProductList());
-      }
+    create: function () {
+        this.inherited(arguments);
+        this.setProductList(new ProductList());
+
     },
     productListChanged: function () {
         me = this;
@@ -29,14 +25,7 @@ enyo.kind({
         _.each(me.productList.models, function (model) {
             me.$.container.createComponent({tag: 'li', kind: "ProductView", model: model}).render();
         });
-    },
-    addProductToList: function (inSender, inEvent) {
-        if (inEvent.keyCode == 13) {
-            var product = new Product({name: inSender.value});
-            this.productList.add(product);
-            this.productListChanged();
-        }
-        else return true;
     }
+
 });
 
