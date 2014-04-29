@@ -1,4 +1,5 @@
 enyo.depends(
     "Product.js",
-    "Products.js"
+    "Products.js",
+    "productsFromDb.js"
 );

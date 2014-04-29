@@ -9,6 +9,7 @@ enyo.depends(
     "style",
     // Model and data definitions
     "data",
+    "webSqlDB",
     // View kind definitions
     "views",
     // Include our default entry point
