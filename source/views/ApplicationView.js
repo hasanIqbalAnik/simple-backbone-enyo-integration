@@ -15,9 +15,9 @@ enyo.kind({
 
     addProductToList: function (inSender, inEvent) {
         if (inEvent.keyCode == 13) {
-            getAll(this.buildList);
+            Db.getAll(this.buildList);
             var product = new Product({name: inSender.value});
-            this.addProductToDb(inSender.value);
+//            this.addProductToDb(inSender.value);
             this.$.productListView.productList.add(product);
             this.$.productListView.productListChanged();
             inSender.setValue("");
@@ -33,16 +33,16 @@ enyo.kind({
         }
     },
     addProductToDb: function (productName) {
-        add(productName);
+        Db.add(productName);
     },
     buildList: function (results) {
-        _.each(
-            results.rows,
-            function (rowIndex) {
-                var row = results.rows.item(rowIndex);
-                console.log(row.name);
-            }
-        );
+//        _.each(
+//            results.rows,
+//            function (rowIndex) {
+//                var row = results.rows.item(rowIndex);
+//                console.log(row.name);
+//            }
+//        );
     }
 
 });
