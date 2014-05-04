@@ -12,12 +12,16 @@ enyo.kind({
             name: "productListView", kind: "ProductListView"
         }
     ],
+    constructor: function () {
+        this.inherited(arguments);
+        Db.getAll(this.buildList, this);
+        console.log('init called');
+    },
 
     addProductToList: function (inSender, inEvent) {
         if (inEvent.keyCode == 13) {
-            Db.getAll(this.buildList);
             var product = new Product({name: inSender.value});
-//            this.addProductToDb(inSender.value);
+            this.addProductToDb(inSender.value);
             this.$.productListView.productList.add(product);
             this.$.productListView.productListChanged();
             inSender.setValue("");
@@ -35,14 +39,15 @@ enyo.kind({
     addProductToDb: function (productName) {
         Db.add(productName);
     },
-    buildList: function (results) {
-//        _.each(
-//            results.rows,
-//            function (rowIndex) {
-//                var row = results.rows.item(rowIndex);
-//                console.log(row.name);
-//            }
-//        );
+    buildList: function (results, context) {
+        for (var i = 0; i < results.rows.length; i++) {
+            row = results.rows.item(i);
+            console.log(row.name);
+            var product = new Product({name: row.name});
+            context.$.productListView.productList.add(product);
+            context.$.productListView.productListChanged();
+        }
+
     }
 
 });

@@ -49,29 +49,15 @@
         );
     };
 
-    Db.getAll = function (callback) {
-        database.transaction(
-            function (transaction) {
-                transaction.executeSql(
-                    (
-                        "SELECT " +
-                            "* " +
-                            "FROM " +
-                            "product " +
-                            "ORDER BY " +
-                            "name ASC"
-                        ),
-                    [],
-                    function (transaction, results) {
-                        console.log(transaction);
-                        console.log(results);
-                        callback(results);
-                    }
-                );
+    Db.getAll = function (callback, context) {
+        database.transaction(function (tx) {
+            tx.executeSql('SELECT * FROM product', [], function (tx, results) {
+                callback(results, context);
+            });
 
-            }
-        );
+        });
     };
+
 
 }());
 
