@@ -5,8 +5,8 @@
 (function () {
     Db = window.Db || {}
 
-    Db.add = function (productName, callback) {
-        // Insert a new girl.
+    Db.add = function (product, callback) {
+        
         database.transaction(
             function (transaction) {
                 transaction.executeSql(
@@ -18,7 +18,7 @@
                             ");"
                         ),
                     [
-                        productName
+                        product.name
                     ],
                     function (transaction, results) {
                         console.log('product inserted');
@@ -30,7 +30,7 @@
             }
         );
     };
-    Db.remove = function (callback) {
+    Db.removeAll = function (callback) {
         database.transaction(
             function (transaction) {
                 transaction.executeSql(
@@ -52,10 +52,36 @@
     Db.getAll = function (callback, context) {
         database.transaction(function (tx) {
             tx.executeSql('SELECT * FROM product', [], function (tx, results) {
-                callback(results, context);
+                if(callback){
+                    callback(results, context);    
+                }
+                
             });
 
         });
+    };
+
+    Db.updateLocalDbFromServer =  function(){
+        var productList = new ProductList();
+        resp = productList.fetch({async:false});
+        list = JSON.parse(resp.responseText);
+        Db.removeAll(); 
+        _.each(list.results, function(model){
+            Db.add(model);    
+        });
+
+    };
+
+    Db.syncServerWithLocalDb = function(){
+        
+        callback = function(results){
+            for (var i = 0; i < results.rows.length; i++) {
+            row = results.rows.item(i);
+            var product = new Product({name: row.name});
+            product.save(); 
+            }
+        };
+        Db.getAll(callback);
     };
 
 

@@ -12,6 +12,7 @@ enyo.depends(
     "webSqlDB",
     // View kind definitions
     "views",
+    "connection",
     // Include our default entry point
     "app2.js"
 );

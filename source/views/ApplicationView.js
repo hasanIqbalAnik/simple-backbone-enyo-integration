@@ -14,40 +14,36 @@ enyo.kind({
     ],
     constructor: function () {
         this.inherited(arguments);
+        if(appIsOnline('localhost:8000')){
+            Db.updateLocalDbFromServer();
+        }
         Db.getAll(this.buildList, this);
-        console.log('init called');
     },
 
     addProductToList: function (inSender, inEvent) {
         if (inEvent.keyCode == 13) {
-            var product = new Product({name: inSender.value});
             this.addProductToDb(inSender.value);
-            this.$.productListView.productList.add(product);
-            this.$.productListView.productListChanged();
             inSender.setValue("");
         }
     },
 
-    addToLocalStorage: function (productName) {
-        if (localStorage.getItem(productName)) {
-            console.log('product already exists');
-        }
-        else {
-            localStorage.setItem(productName, JSON.stringify(productName));
-        }
-    },
     addProductToDb: function (productName) {
-        Db.add(productName);
+        var product = new Product({name: productName});
+        var productList = new ProductList();
+        Db.add({name: product.get('name')});
+        productList.create({name: productName});
+        this.$.productListView.productList.add(product);
+        this.$.productListView.productListChanged();
     },
     buildList: function (results, context) {
         for (var i = 0; i < results.rows.length; i++) {
             row = results.rows.item(i);
-            console.log(row.name);
             var product = new Product({name: row.name});
             context.$.productListView.productList.add(product);
-            context.$.productListView.productListChanged();
         }
+        context.$.productListView.productListChanged();
 
     }
+    
 
 });

@@ -3,10 +3,5 @@
  */
 //
 var Product = Backbone.Model.extend({
-    defaults: {
-        name: "Not specified yet"
-    },
-    initialize: function(){
-
-    }
+    url: 'http://localhost:8000/products/'
 });
